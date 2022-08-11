@@ -1,11 +1,24 @@
-const router = require('express').Router();
+const router = require("express").Router();
+const { Character } = require("../db");
 
-router.get('/', async (req, res, next) => {
-
+router.get("/", async (req, res, next) => {
+  try {
+    const characters = await Character.findAll();
+    res.send(characters);
+  } catch (e) {
+    next(e);
+    console.log("⛔️ERROR!⛔️");
+  }
 });
 
-router.get('/:id', async (req, res, next) => {
-
+router.get("/:id", async (req, res, next) => {
+  try {
+    const character = await Character.findByPk(req.params.id);
+    res.send(character);
+  } catch (e) {
+    next(e);
+    console.log("⛔️ERROR!⛔️");
+  }
 });
 
 module.exports = router;
